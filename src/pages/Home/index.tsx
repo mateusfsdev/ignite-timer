@@ -1,6 +1,6 @@
 
 import { HandPalm, Play } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import { differenceInSeconds } from 'date-fns'
 
 import { 
@@ -21,6 +21,12 @@ interface Cycle {
   interruptedDate?: Date,
   finishedDate?: Date
 }
+
+interface CyclesContextType {
+  activeCycle: Cycle | undefined,
+}
+
+export const CyclesContext = createContext({} as CyclesContextType)
 
 export function Home() {
 
@@ -88,11 +94,10 @@ export function Home() {
     <HomeContainer>
       <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
 
+      <CyclesContext.Provider value={{activeCycle}}>
         <NewCycleForm />
-        <Countdown
-          activeCycle={activeCycle}
-          setCycles={setCycles}
-          activeCycleId={activeCycleId}/>
+        <Countdown/>
+      </CyclesContext.Provider>
 
 
         { activeCycle ? (
