@@ -11,8 +11,6 @@ export function History() {
     <HistoryContainer>
       <h1>meu histórico</h1>
 
-      <pre>{JSON.stringify(cycles, null, 2)}</pre>
-
       <HistoryList>
         <table>
           <thead>
@@ -24,43 +22,28 @@ export function History() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>tarefa</td>
-              <td>20 minutos</td>
-              <td>há 2 dias</td>
-              <td><Status statusColor="yellow">Alert</Status></td>  
+           {cycles.map(cycle => {
+            return(
+            <tr key={cycle.id}>
+              <td>{cycle.task}</td>
+              <td>{cycle.minutesAmount} minutos</td>
+              <td>{cycle.startDate.toISOString()}</td>
+              <td>
+                {cycle.finishedDate && (
+                  <Status statusColor="green">Concluido</Status>
+                )}
+
+                {cycle.interruptedDate && (
+                  <Status statusColor="red">Interrompido</Status>
+                )}
+
+                {(!cycle.finishedDate && !cycle.interruptedDate) && (
+                  <Status statusColor="yellow">Em andamento</Status>
+                )}
+              </td>
             </tr>
-            <tr>
-              <td>tarefa</td>
-              <td>25 minutos</td>
-              <td>há 5 dias</td>
-              <td><Status statusColor="green">Concluido</Status></td>  
-            </tr>
-            <tr>
-              <td>tarefa</td>
-              <td>20 minutos</td>
-              <td>há 1 mês</td>
-              <td><Status statusColor="red">Not finish</Status></td>  
-            </tr>
-            <tr>
-              <td>tarefa</td>
-              <td>20 minutos</td>
-              <td>há dois meses</td>
-              <td><Status statusColor="red">Not finish</Status></td>  
-            </tr>
-            <tr>
-              <td>tarefa</td>
-              <td>20 minutos</td>
-              <td>há dois meses</td>
-              <td><Status statusColor="green">Concluido</Status></td>  
-            </tr>
-            <tr>
-              <td>tarefa</td>
-              <td>20 minutos</td>
-              <td>há tres meses</td>
-              <td><Status statusColor="green">Concluido</Status></td>  
-            </tr>
-            
+            )
+           })}
           </tbody>
         </table>
       </HistoryList>
